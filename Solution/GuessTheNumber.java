@@ -22,8 +22,8 @@
 
 public class GuessTheNumber {
     public static void main(String[] args) {
-        int finalNumber = 617283948;
-        String[] operations = { "X + 5", "X - 0", "X + 1", "X / 2", "X ^ 1" };
+        int finalNumber = 100;
+        String[] operations = { "X ^ 2" };
 
         int actualNumber = GuessTheNumber.getActualNumber(finalNumber, operations, operations.length);
         System.out.println("The actual number will be " + actualNumber + " after performing given operations.");
@@ -53,7 +53,7 @@ public class GuessTheNumber {
             else if (op == '/')
                 ans *= num;
             else {
-                ans = (int) Math.pow(ans, 1 / num);
+                ans = (int) Math.pow(ans, 1f / num);
             }
         }
         return ans;
