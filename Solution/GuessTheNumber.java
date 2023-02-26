@@ -22,15 +22,40 @@
 
 public class GuessTheNumber {
     public static void main(String[] args) {
-        int finalNumber = 10;
-        String[] operations = { "X * 5", "X * 0", "X + 10" };
+        int finalNumber = 617283948;
+        String[] operations = { "X + 5", "X - 0", "X + 1", "X / 2", "X ^ 1" };
 
         int actualNumber = GuessTheNumber.getActualNumber(finalNumber, operations, operations.length);
         System.out.println("The actual number will be " + actualNumber + " after performing given operations.");
     }
 
     public static int getActualNumber(int finalNumber, String[] operations, int totalOperations) {
-        
-        return 0;
+        int ans = finalNumber;
+
+        for (int i = operations.length - 1; i >= 0; i--) {
+            String s = operations[i];
+            int num = Integer.parseInt(s.substring(4));
+            char op = s.charAt(2);
+
+            // Exception Cases
+            if (op == '/' && num == 0)
+                return -1;
+            if ((op == '*' && num == 0) || (op == '^' && num == 0) || op == '%')
+                return -2;
+
+            // Apply Operation
+            if (op == '+')
+                ans -= num;
+            else if (op == '*')
+                ans /= num;
+            else if (op == '-')
+                ans += num;
+            else if (op == '/')
+                ans *= num;
+            else {
+                ans = (int) Math.pow(ans, 1 / num);
+            }
+        }
+        return ans;
     }
 }
