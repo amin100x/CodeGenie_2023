@@ -35,7 +35,6 @@ public class StudentScreener {
             if (map2.get(marks[i]) == "Passed")
                 eligibal.add(map1.get(marks[i]));
         }
-
         return String.join(",", eligibal);
     }
 }
