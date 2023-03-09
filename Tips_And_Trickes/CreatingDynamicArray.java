@@ -29,5 +29,6 @@ public class CreatingDynamicArray {
         }
 
         System.out.println(ans);
+
     }
 }

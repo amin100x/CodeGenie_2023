@@ -43,7 +43,7 @@ public class StringParsings {
         int n = Integer.parseInt("1355");
         System.out.println(n + 10);
         String str = String.valueOf(n);
-        System.out.println(str);
+        System.out.println(str+"AMKM");
 
         // Split
         String s22 = "java,string,split,method,by,javatpoint";
