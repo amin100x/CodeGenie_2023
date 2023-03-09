@@ -8,11 +8,11 @@ This repository contains my solutions to the practice problems for the CodeGenie
 ## Solution of sample problem of codegenie-2023
 
 
-- [x] [1. Calculate Percentile score](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution//PercentileScoreCalculator.java)
-- [x] [2. Student Screener](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution//StudentScreener.java)
-- [x] [3. Guess the Number](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution/GuessTheNumber.java)
+- [x] [1. Calculate Percentile score](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution//PercentileScoreCalculator.java/)
+- [x] [2. Student Screener](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution//StudentScreener.java/)
+- [x] [3. Guess the Number](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Solution/GuessTheNumber.java/)
 
 
 ## Solution of sample problem of codegenie-2023 Final!
 
-- [x] [Parking Management System](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Final%20Practice/ParkingManagementSystem.java)
+- [x] [Parking Management System](https://github.com/Mahmadamin08/CodeGenie_2023/blob/main/Final%20Practice/ParkingManagementSystem.java/)
