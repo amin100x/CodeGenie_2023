@@ -53,7 +53,6 @@ public class ParkingManagementSystem {
                         car.ParkingFlor = f;
                         ReservedSlotsForSeniorCiti.put(ThisSlot, false);
                         Cars.add(car);
-                        // AllCars.add(car);
                         return ThisSlot;
                     }
 
@@ -64,7 +63,6 @@ public class ParkingManagementSystem {
                         car.ParkingFlor = f;
                         ReservedSlots.add(ThisSlot);
                         Cars.add(car);
-                        // AllCars.add(car);
                         return ThisSlot;
                     }
                 }
@@ -73,30 +71,14 @@ public class ParkingManagementSystem {
         return "PARKING FULL";
     }
 
-    public void CheckOut(String CarNo, String CheckOutTime) {
-        String cOut = "";
-        if (CheckOutTime.substring(5).equals("pm")) {
-            int hour = Integer.parseInt(CheckOutTime.substring(0, 2)) + 12;
-            cOut = hour + CheckOutTime.substring(3, 5);
-        } else {
-            cOut += CheckOutTime.substring(0, 5);
-        }
+    public int CheckOut(String CarNo, String CheckOutTime) {
+
+        int charge = 0;
         for (Car car : Cars) {
             if (car.CarNum.equals(CarNo)) {
-                String Cin = "";
-                if (car.CheckInTime.substring(5).equals("pm")) {
-                    int hour = Integer.parseInt(car.CheckInTime.substring(0, 2)) + 12;
-                    Cin = hour + car.CheckInTime.substring(3, 5);
-                } else {
-                    Cin += car.CheckInTime.substring(0, 5);
-                }
-
-                int durationInHour = (Integer.parseInt(CheckOutTime.substring(0, 2))
-                        - Integer.parseInt(car.CheckInTime.substring(0, 2)))
-                        + (Integer.parseInt(CheckOutTime.substring(3, 5))
-                                - Integer.parseInt(car.CheckInTime.substring(3, 5))) / 60;
-
-                car.Charge = CalculateCharge((int) durationInHour);
+                int durationInHour = FindDurationInHour(car.CheckInTime, CheckOutTime);
+                charge = CalculateCharge((int) durationInHour);
+                car.Charge = charge;
                 car.CheckOutTime = CheckOutTime;
                 AllCars.add(car);
 
@@ -107,10 +89,44 @@ public class ParkingManagementSystem {
                     ReservedSlotsForSeniorCiti.put(ThisSlot, true);
                 }
                 Cars.remove(car);
-                return;
+                return charge;
             }
         }
-        return;
+        return -1;
+    }
+
+    public int FindDurationInHour(String in, String out) {
+        String cOut = "";
+        if (out.substring(5).equals("pm")) {
+            int hour;
+            if (out.substring(0, 2).equals("12")) {
+                hour = Integer.parseInt(out.substring(0, 2));
+            } else {
+                hour = Integer.parseInt(out.substring(0, 2)) + 12;
+            }
+            cOut += hour + out.substring(2, 5);
+        } else if (out.substring(5).equals("am")) {
+            cOut += out.substring(0, 5);
+        }
+
+        String Cin = "";
+        if (in.substring(5).equals("pm")) {
+            int hour;
+            if (in.substring(0, 2).equals("12")) {
+                hour = Integer.parseInt(in.substring(0, 2));
+            } else {
+                hour = Integer.parseInt(in.substring(0, 2)) + 12;
+            }
+            Cin += hour + in.substring(2, 5);
+        } else if (in.substring(5).equals("am")) {
+            Cin += in.substring(0, 5);
+        }
+
+        int durationInHour = (Integer.parseInt(cOut.substring(0, 2))
+                - Integer.parseInt(Cin.substring(0, 2)))
+                + (Integer.parseInt(cOut.substring(3, 5))
+                        - Integer.parseInt(Cin.substring(3, 5))) / 60;
+        return durationInHour;
     }
 
     public int CalculateCharge(int h) {
@@ -122,10 +138,26 @@ public class ParkingManagementSystem {
             return 100;
     }
 
+    String TimeIn24HourFormat(String time) {
+        String ans = "";
+        if (time.substring(5).equals("pm")) {
+            int hour;
+            if (time.substring(0, 2).equals("12")) {
+                hour = Integer.parseInt(time.substring(0, 2));
+            } else {
+                hour = Integer.parseInt(time.substring(0, 2)) + 12;
+            }
+            ans += hour + time.substring(2, 5);
+        } else if (time.substring(5).equals("am")) {
+            ans += time.substring(0, 5);
+        }
+        return ans;
+    }
+
     void GenerateReport() {
 
         AllCars.sort(Comparator.comparing((Car car) -> car.ParkingFlor).thenComparing((Car car) -> car.ParkingSlotNo)
-                .thenComparing((Car car) -> car.CheckInTime));
+                .thenComparing((Car car) -> TimeIn24HourFormat(car.CheckInTime)));
         System.out.println("PARKING SLOT, CAR NO, CHECK IN TIME, CHECK OUT TIME, CHARGES, CATEGORY");
 
         for (Car c : AllCars) {
@@ -138,20 +170,24 @@ public class ParkingManagementSystem {
     public static void main(String[] args) throws ParseException {
         Scanner sc = new Scanner(System.in);
 
-        ParkingManagementSystem pr = new ParkingManagementSystem(5, 10, "A-1 A-10 B-2 B-5 C-1 C-8 D-2 D-4 E-5 E-10");
+        int NumOfFloor = sc.nextInt();
+        int NumOfSlotInEachFloors = sc.nextInt();
+        String ReservedForSenior = sc.nextLine();
 
+        ParkingManagementSystem pr = new ParkingManagementSystem(NumOfFloor, NumOfSlotInEachFloors, ReservedForSenior);
         while (true) {
-            // System.out.print("Enter Car Details:- ");
             String inputCar = sc.nextLine();
             String[] arr = inputCar.split(" ");
 
             if (arr.length == 4) {
                 System.out.println(pr.CheckIn(arr[1], arr[2], arr[3]));
             } else if (arr.length == 3) {
-                pr.CheckOut(arr[1], arr[2]);
+                System.out.println(pr.CheckOut(arr[1], arr[2]));
             } else if (inputCar.equals("GENERATE REPORT")) {
                 pr.GenerateReport();
             } else {
+                System.out.println("Invalid Details...");
+                sc.close();
                 break;
             }
 
