@@ -170,8 +170,8 @@ public class ParkingManagementSystem {
     public static void main(String[] args) throws ParseException {
         Scanner sc = new Scanner(System.in);
 
-        int NumOfFloor = sc.nextInt();
-        int NumOfSlotInEachFloors = sc.nextInt();
+        int NumOfFloor = Integer.parseInt(sc.nextLine());
+        int NumOfSlotInEachFloors = Integer.parseInt(sc.nextLine());
         String ReservedForSenior = sc.nextLine();
 
         ParkingManagementSystem pr = new ParkingManagementSystem(NumOfFloor, NumOfSlotInEachFloors, ReservedForSenior);
